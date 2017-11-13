@@ -1,24 +1,28 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: An application to periodically search tweets and store them in DynamoDB.
 Resources:
-  TweetsDynamoDBTable:
+  TweetsTable:
     Type: AWS::DynamoDB::Table
     Properties:
       AttributeDefinitions:
         - AttributeName: TweetId
           AttributeType: S
+        - AttributeName: QueryId
+          AttributeType: S
       KeySchema:
-        - AttributeName: id
+        - AttributeName: QueryId
           KeyType: HASH
+        - AttributeName: TweetId
+          KeyType: RANGE
       ProvisionedThroughput:
-        ReadCapacityUnits: 3
-        WriteCapacityUnits: 3
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
 
-  QueryDynamoDBTable:
+  QueriesTable:
     Type: AWS::DynamoDB::Table
     Properties:
       AttributeDefinitions:
-        - AttributeName:
+        - AttributeName: QueryId
           AttributeType: S
       KeySchema:
         - AttributeName: QueryId
