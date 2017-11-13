@@ -1,0 +1,11 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: An application to periodically search tweets and store them in DynamoDB.
+Resources:
+  TwitterSearchAndStoreHandler:
+    Properties:
+      CodeUri: s3://twitter-to-dynamodb/sources/88d3e15aa49492c4d2b221948038a53e
+      Handler: src.twitter_handler.search_and_store
+      Runtime: python3.6
+      Timeout: 60
+    Type: AWS::Serverless::Function
+Transform: AWS::Serverless-2016-10-31

@@ -1,0 +1,39 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: An application to periodically search tweets and store them in DynamoDB.
+Resources:
+  TweetsDynamoDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: TweetId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 3
+        WriteCapacityUnits: 3
+
+  QueryDynamoDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName:
+          AttributeType: S
+      KeySchema:
+        - AttributeName: QueryId
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+
+  TwitterSearchAndStoreHandler:
+    Properties:
+      CodeUri: ./bundle.zip
+      Handler: src.twitter_handler.search_and_store
+      Runtime: python3.6
+      Timeout: 60
+    Type: AWS::Serverless::Function
+
+
+Transform: AWS::Serverless-2016-10-31
