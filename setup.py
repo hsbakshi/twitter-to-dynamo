@@ -9,7 +9,7 @@ required_eggs = [
     'python-twitter>=3.3',
     'boto3>=1.4.7',
     'PyYAML>=3.12',
-    'awstwitter>=1.0.2'
+    'awstwitter>=1.0.3'
 ]
 
 setup(

@@ -1,4 +1,4 @@
 python-twitter==3.3
 PyYAML==3.12
-awstwitter>=1.0.2,<1.0.99
+awstwitter>=1.0.3,<1.0.99
 boto3>=1.4.7,<1.4.99
