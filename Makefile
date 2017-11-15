@@ -13,6 +13,7 @@ export PATH := var:$(PATH):$(VENV_DIR)/bin
 PYTHON := $(shell /usr/bin/which python$(PY_VERSION))
 VIRTUALENV := $(PYTHON) -m venv
 ZIP_FILE := $(BASE)/bundle.zip
+S3_BUCKET ?= twitter-to-dynamodb
 
 .DEFAULT_GOAL := build
 .PHONY: build clean release describe deploy package bundle bundle.local
@@ -38,7 +39,7 @@ bundle:
 package:
 	sam package \
 		--template-file template.yaml \
-		--s3-bucket twitter-to-dynamodb	\
+		--s3-bucket $(S3_BUCKET) \
 		--s3-prefix sources \
 		--output-template-file packaged.yaml
 
