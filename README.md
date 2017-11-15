@@ -7,12 +7,12 @@ store tweets, then you can use this stack to enable the automation.
 
 ## AWS technologies used
 
-AWS EC2 Systems Manager - Credentials storage
-KMS - Encryption of credentials
-AWS Cloudformation
-AWS Lambda
-AWS DynamoDB
-AWS Cloudwatch
+* AWS EC2 Systems Manager - Twitter Credentials storage
+* KMS - Encryption of credentials
+* AWS Cloudformation - Stack management
+* AWS Lambda - Call Twitter and write to DynamoDB
+* AWS DynamoDB - Store tweets and queries
+* AWS Cloudwatch - Invoke Lambda periodically
 
 # Setup required to use this stack
 
