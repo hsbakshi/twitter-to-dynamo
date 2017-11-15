@@ -6,7 +6,7 @@ Resources:
     Properties:
       AttributeDefinitions:
         - AttributeName: TweetId
-          AttributeType: S
+          AttributeType: N
         - AttributeName: QueryId
           AttributeType: S
       KeySchema:
@@ -31,12 +31,71 @@ Resources:
         ReadCapacityUnits: 1
         WriteCapacityUnits: 1
 
+  LambdaExecutorRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Path: /
+      AssumeRolePolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service:
+                  - lambda.amazonaws.com
+              Action: sts:AssumeRole
+        # note that these rights are needed if you want your function to be able to communicate with resources within your vpc
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: TwiterDynamoDBPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+            - Sid: Stmt1428341300017
+              Action:
+              - dynamodb:DeleteItem
+              - dynamodb:GetItem
+              - dynamodb:PutItem
+              - dynamodb:Query
+              - dynamodb:Scan
+              - dynamodb:UpdateItem
+              - dynamodb:BatchWriteItem
+              Effect: Allow
+              Resource: "*"
+            - Sid: ''
+              Action:
+              - kms:Decrypt
+              Effect: Allow
+              Resource: "*"
+            - Sid: ''
+              Action:
+              - ssm:GetParameters
+              Effect: Allow
+              Resource: "*"
+            - Sid: ''
+              Action:
+              - logs:CreateLogGroup
+              - logs:CreateLogStream
+              - logs:PutLogEvents
+              Effect: Allow
+              Resource: "*"
+
   TwitterSearchAndStoreHandler:
     Properties:
       CodeUri: ./bundle.zip
       Handler: src.twitter_handler.search_and_store
       Runtime: python3.6
       Timeout: 60
+      Role: !GetAtt LambdaExecutorRole.Arn
+      Environment:
+        Variables:
+          TWEETS_TABLE_NAME: !Ref TweetsTable
+          QUERIES_TABLE_NAME: !Ref QueriesTable
+      Events:
+        Timer:
+          Type: Schedule
+          Properties:
+            Schedule: rate(5 minutes)
     Type: AWS::Serverless::Function
 
 
