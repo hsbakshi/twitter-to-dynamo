@@ -11,8 +11,6 @@ Resources:
             Service:
             - lambda.amazonaws.com
         Version: '2012-10-17'
-      ManagedPolicyArns:
-      - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
       Path: /
       Policies:
       - PolicyDocument:
@@ -78,7 +76,7 @@ Resources:
     Type: AWS::DynamoDB::Table
   TwitterSearchAndStoreHandler:
     Properties:
-      CodeUri: s3://twitter-to-dynamodb/sources/fb9d1698f6031d0f9dca01692485b1c0
+      CodeUri: s3://twitter-to-dynamodb/sources/7ec23ce9dc59620f2a2588206543baa9
       Environment:
         Variables:
           QUERIES_TABLE_NAME:

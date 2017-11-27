@@ -44,8 +44,6 @@ Resources:
                   - lambda.amazonaws.com
               Action: sts:AssumeRole
         # note that these rights are needed if you want your function to be able to communicate with resources within your vpc
-      ManagedPolicyArns:
-        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
       Policies:
         - PolicyName: TwiterDynamoDBPolicy
           PolicyDocument:
